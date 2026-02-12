@@ -1,7 +1,27 @@
-import React from "react";
+import { useState, useRef } from "react";
 import "./BanhChungFestival.css";
 
 export default function FestivalContent() {
+        const [showVideoModal, setShowVideoModal] = useState(false);
+        const videoRef = useRef(null);
+
+        const openVideoModal = () => {
+                setShowVideoModal(true);
+                setTimeout(() => {
+                        if (videoRef.current) {
+                                videoRef.current.play();
+                        }
+                }, 100);
+        };
+
+        const closeVideoModal = () => {
+                if (videoRef.current) {
+                        videoRef.current.pause();
+                        videoRef.current.currentTime = 0;
+                }
+                setShowVideoModal(false);
+        };
+
         return (
             <div className="story-layout">
 
@@ -41,17 +61,9 @@ export default function FestivalContent() {
                         connection with Vietnamese roots and national identity.
                     </p>
 
-                    <p>
-                        <strong>1.2 Spirit of Solidarity and Charity</strong><br/>
-                        Sharing Love: A core mission of the 2026 festival is to gift these handmade cakes to
-                        disadvantaged families, orphans, and people in border areas, ensuring everyone has a warm
-                        Tet.<br/>
-                        Community Bonding: It serves as a bridge, connecting students, teachers, and locals through
-                        collective social responsibility.
-                    </p>
 
                     <p>
-                        <strong>1.3 Spiritual Meaning and New Year Wishes</strong><br/>
+                        <strong>1.2 Spiritual Meaning and New Year Wishes</strong><br/>
                         Gratitude to Ancestors: The best cakes are offered to ancestors to express respect and
                         remembrance.<br/>
                         Prayers for Prosperity: The green Banh Chung symbolizes the wish for a "favorable weather,
@@ -59,7 +71,7 @@ export default function FestivalContent() {
                     </p>
 
                     <p>
-                        <strong>1.4 Strengthening Solidarity and Teamwork</strong><br/>
+                        <strong>1.3 Strengthening Solidarity and Teamwork</strong><br/>
                         Team Bonding: The process of making Banh Chung requires smooth coordination and task
                         allocation—people washing leaves, preparing the sticky rice, wrapping the cakes, and tending the
                         fire. This provides an excellent opportunity for students or community members to practice
@@ -69,7 +81,7 @@ export default function FestivalContent() {
                     </p>
 
                     <p>
-                        <strong>1.5 Sustainable Lifestyle and Agriculture Awareness</strong><br/>
+                        <strong>1.4 Sustainable Lifestyle and Agriculture Awareness</strong><br/>
                         Respect for Nature: By using natural ingredients like dong leaves, bamboo strings, sticky rice,
                         and mung beans, the festival reminds everyone of the value of local produce and the importance
                         of environmental protection.<br/>
@@ -103,9 +115,6 @@ export default function FestivalContent() {
                 <section className="text-section">
                     <h2>3. Key Activities</h2>
                     <p>The festival typically spans 2 days and 1 night with a vibrant schedule:</p>
-                    <p><strong>Preparation Phase:</strong> Students are taught how to wash the leaves, rinse the rice,
-                        peel the beans, and prep the meat. The festive atmosphere begins right from these initial steps.
-                    </p>
                     <p><strong>Wrapping Competition:</strong> Classes compete to see who can wrap the neatest and
                         fastest cakes. "MCers" (Marie Curie students) from elementary to high school participate with
                         great excitement. For many, it is their first time touching traditional bamboo ties and leaves.
@@ -126,7 +135,6 @@ export default function FestivalContent() {
                     <h2>4. Banh Chung Festival 2026 (Year of the Horse)</h2>
                     <p>As of January 2026, the preparations for the Tet Binh Ngo festival are in full swing:</p>
                     <p><strong>Timing:</strong> The festival is usually held during the final school week before the Lunar New Year holiday.</p>
-                    <p><strong>New Trends:</strong> In recent years, Marie Curie has integrated eco-friendly practices (reducing plastic waste) and enhanced the experience with virtual reality (VR) showcases of Tet culture for students.</p>
                 </section>
 
                 {/* SECTION 5 */}
@@ -139,6 +147,36 @@ export default function FestivalContent() {
                     <p><strong>YouTube:</strong> The Marie Curie Hanoi channel often posts touching documentary footage of the overnight vigils.</p>
                     <p>If you are a new parent or student, remember to bring warm clothes and a high-energy spirit to fully enjoy this unique cultural tradition at Marie Curie!</p>
                 </section>
+
+                {/* VIDEO SECTION */}
+                <section className="video-section">
+                    <h2 className="video-section-title">Watch Our Festival</h2>
+                    <p className="video-section-desc">Experience the vibrant atmosphere of the Banh Chung Festival</p>
+                    <button className="video-btn" onClick={openVideoModal}>
+                        Visit our video
+                    </button>
+                </section>
+
+                {/* VIDEO MODAL */}
+                {showVideoModal && (
+                    <div className="video-modal-overlay" onClick={closeVideoModal}>
+                        <div className="video-modal-content" onClick={(e) => e.stopPropagation()}>
+                            <button className="video-modal-close" onClick={closeVideoModal}>
+                                ❌
+                            </button>
+                            <video
+                                ref={videoRef}
+                                controls
+                                autoPlay
+                                className="video-player"
+                            >
+                                <source src="https://pub-74ae98a19e2e46a6b346406a20981968.r2.dev/B%C3%A1nh%20ch%C6%B0ng%20festival.mov" type="video/quicktime" />
+                                <source src="https://pub-74ae98a19e2e46a6b346406a20981968.r2.dev/B%C3%A1nh%20ch%C6%B0ng%20festival.mov" type="video/mp4" />
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                )}
 
             </div>
         );
